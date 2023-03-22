@@ -1,0 +1,50 @@
+- let emojiMaps = '""'
+if site.data.valine
+  - emojiMaps = JSON.stringify(site.data.valine)
+
+#vcomment.vcomment
+script(src=url_for(theme.CDN.valine))
+script.
+  var requestSetting = function (from,set) {
+    var from = from
+    var setting = set.split(',').filter(function(item){
+    return from.indexOf(item) > -1
+    });
+    setting = setting.length == 0 ? from :setting;
+    return setting
+  }
+
+  var guestInfo = requestSetting(['nick','mail','link'],'#{ theme.valine.guest_info }')
+  var requiredFields = requestSetting(['nick','mail'],'#{ theme.valine.requiredFields }')
+
+  window.valine = new Valine({
+    el:'#vcomment',
+    master:'#{theme.valine.master}',
+    friends:'#{theme.valine.friends}',
+    appId: '#{theme.valine.appId}',
+    appKey: '#{theme.valine.appKey}',
+    placeholder: '#{theme.valine.placeholder}',
+    avatar: '#{theme.valine.avatar}',
+    meta: guestInfo,
+    pageSize: '#{theme.valine.pageSize}',
+    lang: '#{theme.valine.lang}',
+    recordIP: #{theme.valine.recordIP},
+    serverURLs: '#{theme.valine.serverURLs}',
+    emojiCDN: '#{theme.valine.emojiCDN}',
+    emojiMaps: !{emojiMaps},
+    enableQQ: #{theme.valine.enableQQ},
+    requiredFields: requiredFields,
+    emojiMaps: {
+              "1":"https://cdn.jsdelivr.net/gh/lete114/CDN/emoji/1.gif",
+              "001":"https://cdn.jsdelivr.net/gh/lete114/CDN/emoji/001.png",
+              "002":"https://cdn.jsdelivr.net/gh/lete114/CDN/emoji/002.png",
+              "003":"https://cdn.jsdelivr.net/gh/lete114/CDN/emoji/003.png",
+              "004":"https://cdn.jsdelivr.net/gh/lete114/CDN/emoji/004.png",
+              "005":"https://cdn.jsdelivr.net/gh/lete114/CDN/emoji/005.png",
+              "006":"https://cdn.jsdelivr.net/gh/lete114/CDN/emoji/006.png",
+              "0103":"https://cdn.jsdelivr.net/gh/lete114/CDN/emoji/103.jpg",
+              "0104":"https://cdn.jsdelivr.net/gh/lete114/CDN/emoji/104.jpg",
+              "0105":"https://cdn.jsdelivr.net/gh/lete114/CDN/emoji/105.jpg",
+              "0106":"https://cdn.jsdelivr.net/gh/lete114/CDN/emoji/106.gif"
+          }
+  });
